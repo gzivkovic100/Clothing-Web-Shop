@@ -70,7 +70,7 @@ const SignUpForm = () => {
 
                 <FormInput label="Password" type="password" required onChange={handleChange} name="password"  value={password}/>
 
-                <FormInput label="Password" type="password" required onChange={handleChange} name="confirmPassword" value={confirmPassword} />
+                <FormInput label="Confirm Password" type="password" required onChange={handleChange} name="confirmPassword" value={confirmPassword} />
                 <Button buttonType="google" type="submit" >Sign Up</Button>
             </form>
         </div>
