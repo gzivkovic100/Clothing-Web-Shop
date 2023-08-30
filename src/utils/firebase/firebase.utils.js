@@ -1,17 +1,15 @@
-
-
 import { initializeApp } from 'firebase/app';
 import {  getAuth, 
           signInWithRedirect, 
           signInWithPopup, 
           GoogleAuthProvider, 
           createUserWithEmailAndPassword,
-          signInWithEmailAndPassword 
+          signInWithEmailAndPassword,
+          signOut,
+          onAuthStateChanged 
         } from 'firebase/auth';
 
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
-
-
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -23,7 +21,6 @@ const firebaseConfig = {
     appId: "1:625619414171:web:7b2774602c08b69fa8aa3e"
   };
 
-
   // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
@@ -32,12 +29,9 @@ googleProvider.setCustomParameters({
     prompt: 'select_account'
 });
 
-export const auth = getAuth();
+export const auth = getAuth(firebaseApp);
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
 export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
-
-
-
 
 export const db = getFirestore();
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
@@ -73,8 +67,6 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
   }
 }
 
-
-
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if(!email || !password) return;
 
@@ -86,3 +78,8 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
   return await signInWithEmailAndPassword(auth, email, password);
 }
+
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (callback) => 
+  onAuthStateChanged(auth, callback);
